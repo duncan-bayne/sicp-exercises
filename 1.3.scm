@@ -1,21 +1,29 @@
 (define (square a) (* a a))
 
-(define (insert-sorted sorted-list item)
+(define (largest a b c)
+  (cond 
+    ((and (>= a b) (>= a c)) a)
+    ((and (>= b a) (>= b c)) b)
+    (else c)))
 
-(define (sort sorted-list remaining-list)
-  (cond ((= 0 (length remaining-list)) sorted-list)
-        (else (insert-sorted sorted-list (car remaining-list) (cdr remaining-list)))))
-  
-(define (nth n lst) (car lst)
-  (cond ((= n 1) (car lst))
-        (else (nth (- n 1) (cdr lst)))))
+(define (second-largest a b c)
+  (cond 
+    ((and (>= a b) (<= a c)) a)
+    ((and (>= a c) (<= a b)) a)
+    ((and (>= b a) (<= b c)) b)
+    ((and (>= b c) (<= b a)) b)
+    (else c)))
 
-(define (largest n lst)
-  (nth n (sort (list) lst)))
-  
 (define (squares-largest-two a b c)
   (+ 
-   (square (largest 1 (list a b c)))
-   (square (largest 2 (list a b c)))))
+   (square (largest a b c))
+   (square (second-largest a b c))))
+  
+(define (assert-equal expected actual)
+  (cond
+    ((= expected actual) (print "T "))
+    (else (print "F (expected " expected ", actual " actual))))
   
 (squares-largest-two 1 2 3)
+(squares-largest-two 1 1 1)
+(squares-largest-two 2 2 5)
